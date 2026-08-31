@@ -130,6 +130,11 @@ export const CircleScene: React.FC<Props> = ({ onBack }) => {
         <div className="font-serif text-base italic text-stone-600">
           E ≅ P¹ — and P¹(ℝ) is a circle
         </div>
+        {papers.length === 0 && (
+          <div className="mt-2 font-serif text-sm italic text-stone-500">
+            I have no papers yet.
+          </div>
+        )}
         <button
           onClick={onBack}
           className="pointer-events-auto mt-2 font-serif text-sm italic text-stone-400 underline decoration-stone-300 underline-offset-4 hover:text-stone-700"

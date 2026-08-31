@@ -158,8 +158,13 @@ export const CubicScene: React.FC<Props> = ({ onBack }) => {
 
       <div className="pointer-events-none absolute bottom-8 left-1/2 w-full max-w-2xl -translate-x-1/2 px-4 text-center">
         <div className="font-serif text-base italic text-stone-600">
-          C̃ ≅ P¹ ↪ P³ :&nbsp; u ↦ (u, u², u³) — the twisted cubic
+          C̃ ≅ P¹ <span aria-label="embeds into">{"\u21AA\uFE0E"}</span> P³ :&nbsp; u ↦ (u, u², u³) — the twisted cubic
         </div>
+        {talks.length === 0 && (
+          <div className="mt-2 font-serif text-sm italic text-stone-500">
+            I have no talks yet. Notes will be added soon.
+          </div>
+        )}
         <button
           onClick={onBack}
           className="pointer-events-auto mt-2 font-serif text-sm italic text-stone-400 underline decoration-stone-300 underline-offset-4 hover:text-stone-700"
