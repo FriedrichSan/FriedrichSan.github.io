@@ -195,8 +195,8 @@ export const BlowupScene: React.FC<Props> = ({
           <Callout
             ax={cAx}
             ay={cAy}
-            lx={Math.min(w - 170, cAx + 110)}
-            ly={Math.max(96, cAy - 165)}
+            lx={Math.min(w - 170, cAx + w * 0.17)}
+            ly={Math.min(h - 140, cAy + h * 0.22)}
             title="C̃ — talks & notes"
             sub="the strict transform"
             color="ink"
