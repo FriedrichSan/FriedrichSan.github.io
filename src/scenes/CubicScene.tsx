@@ -45,7 +45,11 @@ export const CubicScene: React.FC<Props> = ({ onBack }) => {
   const lastRef = useRef<number | null>(null);
 
   const n = talks.length;
-  const us = talks.map((_, i) => -1.18 + (2.36 * i) / (n - 1));
+  // A single item has no interval to divide, so anchor it at the
+  // middle of the curve instead of producing a NaN screen position.
+  const us = talks.map((_, i) =>
+    n === 1 ? 0 : -1.18 + (2.36 * i) / (n - 1)
+  );
 
   const draw = useCallback(
     (ctx: CanvasRenderingContext2D, w: number, h: number, t: number) => {
