@@ -38,4 +38,13 @@ export interface Talk {
   href: string;
 }
 
-export const talks: Talk[] = [];
+export const talks: Talk[] = [
+  {
+    title: "Birational Geometry Seminar",
+    event: "Personal notes",
+    date: "2026",
+    kind: "note",
+    abstract: "A seminar lecture note in Birational Geometry, especially the Minimal Model Program",
+    href: "/notes/birational-geometry.pdf",
+  },
+];
