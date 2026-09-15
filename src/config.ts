@@ -63,4 +63,12 @@ export const talks: Talk[] = [
     abstract: "Mori's Cone Theorem, corrected by GPT6 Astra Model, the original version from my Birational Geometry seminar note",
     href: "/notes/mori_cone_theorem_revised.pdf",
   },
+  {
+    title: "Chapter 1: Ample and Nef Line Bundles",
+    event: "Personal notes",
+    date: "2026",
+    kind: "note",
+    abstract: "Ample and Nef Line Bundles, corrected by GPT6 Astra Model, the original version from my Birational Geometry seminar note in Chapter 1",
+    href: "/notes/chapter1_ample_nef_revised.pdf",
+  },
 ];
