@@ -55,4 +55,12 @@ export const talks: Talk[] = [
     abstract: "An application of the bend and break, gives a result that every point in smooth projective Fano variety there is a rational curves passing through it, and satisfies some length condition.",
     href: "/notes/bend_and_break_applications_revised.pdf",
   },
+  {
+    title: "Mori's Cone Theorem",
+    event: "Personal notes",
+    date: "2026",
+    kind: "note",
+    abstract: "Mori's Cone Theorem, corrected by GPT6 Astra Model, the original version from my Birational Geometry seminar note",
+    href: "/notes/mori_cone_theorem_revised.pdf",
+  },
 ];
