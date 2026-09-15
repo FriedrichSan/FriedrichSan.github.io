@@ -47,4 +47,12 @@ export const talks: Talk[] = [
     abstract: "A seminar lecture note in Birational Geometry, especially the Minimal Model Program",
     href: "/notes/birational-geometry.pdf",
   },
+  {
+    title: "Application of the Bend-and-Break technique",
+    event: "Personal notes",
+    date: "2026",
+    kind: "note",
+    abstract: "An application of the bend and break, gives a result that every point in smooth projective Fano variety there is a rational curves passing through it, and satisfies some length condition.",
+    href: "/notes/bend_and_break_applications_revised.pdf",
+  },
 ];
