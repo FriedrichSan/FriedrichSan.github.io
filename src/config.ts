@@ -80,7 +80,7 @@ export const talks: Talk[] = [
     href: "/notes/chapter3_linear_series_revised.pdf",
   },
   {
-    title: "Chapter 3: Linear Series",
+    title: "Chapter 4: Vanishing Theorems",
     event: "Personal notes",
     date: "2026",
     kind: "note",
