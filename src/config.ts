@@ -76,7 +76,7 @@ export const talks: Talk[] = [
     event: "Personal notes",
     date: "2026",
     kind: "note",
-    abstract: "Linear series which is about bigness and Iitaka dimension, corrected by GPT6 Astra Model, the original version from my Birational Geometry seminar note in Chapter 1",
+    abstract: "Linear series which is about bigness and Iitaka dimension, corrected by GPT6 Astra Model, the original version from my Birational Geometry seminar note in Chapter 3",
     href: "/notes/chapter3_linear_series_revised.pdf",
   },
 ];
