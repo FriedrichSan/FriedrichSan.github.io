@@ -93,6 +93,6 @@ export const talks: Talk[] = [
     date: "2026",
     kind: "note",
     abstract: "Deformation theory of rational curves and bend and break technique, corrected by GPT6 Astra Model but too brief, the original version from my Birational Geometry seminar note in Chapter 2",
-    href: "/notes/chapter4_vanishing_revised.pdf",
+    href: "/notes/chapter2_rational_curves_revised.pdf",
   },
 ];
