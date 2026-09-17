@@ -5,7 +5,7 @@
 
 export const site = {
   name: "YunKai Ji",
-  tagline: "student in higher-dimensional algebraic geometry",
+  tagline: "a student in higher-dimensional algebraic geometry",
   // 个人介绍（点击奇点处的箭头弹出）
   bio: [
     "My name is YunKai Ji. I am a student working in higher-dimensional algebraic geometry under the supervision of ZhengYu Hu.",
