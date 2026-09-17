@@ -95,4 +95,12 @@ export const talks: Talk[] = [
     abstract: "Deformation theory of rational curves and bend and break technique, corrected by GPT6 Astra Model but too brief, the original version from my Birational Geometry seminar note in Chapter 2",
     href: "/notes/chapter2_rational_curves_revised.pdf",
   },
+  {
+    title: "Chapter 5: Introduction to the Minimal Model Program",
+    event: "Personal notes",
+    date: "2026",
+    kind: "note",
+    abstract: "Singularity theory for the minimal model program, corrected by GPT6 Astra Model, the original version from my Birational Geometry seminar note in Chapter 5",
+    href: "/notes/chapter5_mmp_revised.pdf",
+  },
 ];
