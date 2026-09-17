@@ -68,7 +68,7 @@ export const talks: Talk[] = [
     event: "Personal notes",
     date: "2026",
     kind: "note",
-    abstract: "Ample and Nef Line Bundles, corrected by GPT6 Astra Model, the original version from my Birational Geometry seminar note in Chapter 1",
+    abstract: "Ample and Nef Line Bundles, revised by GPT6 Astra Model, the original version from my Birational Geometry seminar note in Chapter 1",
     href: "/notes/chapter1_ample_nef_revised.pdf",
   },
   {
@@ -76,7 +76,7 @@ export const talks: Talk[] = [
     event: "Personal notes",
     date: "2026",
     kind: "note",
-    abstract: "Linear series which is about bigness and Iitaka dimension, corrected by GPT6 Astra Model, the original version from my Birational Geometry seminar note in Chapter 3",
+    abstract: "Linear series which is about bigness and Iitaka dimension, revised by GPT6 Astra Model, the original version from my Birational Geometry seminar note in Chapter 3",
     href: "/notes/chapter3_linear_series_revised.pdf",
   },
   {
@@ -84,7 +84,7 @@ export const talks: Talk[] = [
     event: "Personal notes",
     date: "2026",
     kind: "note",
-    abstract: "Useful vanishing theorems, corrected by GPT6 Astra Model, the original version from my Birational Geometry seminar note in Chapter 4",
+    abstract: "Useful vanishing theorems, revised by GPT6 Astra Model, the original version from my Birational Geometry seminar note in Chapter 4",
     href: "/notes/chapter4_vanishing_revised.pdf",
   },
   {
@@ -92,7 +92,7 @@ export const talks: Talk[] = [
     event: "Personal notes",
     date: "2026",
     kind: "note",
-    abstract: "Deformation theory of rational curves and bend and break technique, corrected by GPT6 Astra Model but too brief, the original version from my Birational Geometry seminar note in Chapter 2",
+    abstract: "Deformation theory of rational curves and bend and break technique, revised by GPT6 Astra Model but too brief, the original version from my Birational Geometry seminar note in Chapter 2",
     href: "/notes/chapter2_rational_curves_revised.pdf",
   },
   {
@@ -100,7 +100,7 @@ export const talks: Talk[] = [
     event: "Personal notes",
     date: "2026",
     kind: "note",
-    abstract: "Singularity theory for the minimal model program, corrected by GPT6 Astra Model, the original version from my Birational Geometry seminar note in Chapter 5",
+    abstract: "Singularity theory for the minimal model program, revised by GPT6 Astra Model, the original version from my Birational Geometry seminar note in Chapter 5",
     href: "/notes/chapter5_mmp_revised.pdf",
   },
 ];
