@@ -87,4 +87,12 @@ export const talks: Talk[] = [
     abstract: "Useful vanishing theorems, corrected by GPT6 Astra Model, the original version from my Birational Geometry seminar note in Chapter 4",
     href: "/notes/chapter4_vanishing_revised.pdf",
   },
+  {
+    title: "Chapter 2: Rational Curvs & Bend and Break",
+    event: "Personal notes",
+    date: "2026",
+    kind: "note",
+    abstract: "Deformation theory of rational curves and bend and break technique, corrected by GPT6 Astra Model but too brief, the original version from my Birational Geometry seminar note in Chapter 2",
+    href: "/notes/chapter4_vanishing_revised.pdf",
+  },
 ];
