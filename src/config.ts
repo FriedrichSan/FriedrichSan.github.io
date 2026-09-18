@@ -103,4 +103,12 @@ export const talks: Talk[] = [
     abstract: "Singularity theory for the minimal model program, revised by GPT6 Astra Model, the original version from my Birational Geometry seminar note in Chapter 5",
     href: "/notes/chapter5_mmp_revised.pdf",
   },
+  {
+    title: "Birational Geometry revised",
+    event: "Personal notes",
+    date: "2026",
+    kind: "note",
+    abstract: "Revised by GPT6 Astra Model.",
+    href: "/notes/birational_geometry_chapters1-5_appendices_revised.pdf",
+  },
 ];
