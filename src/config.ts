@@ -109,6 +109,6 @@ export const talks: Talk[] = [
     date: "2026",
     kind: "note",
     abstract: "Revised by GPT6 Astra Model.",
-    href: "/notes/birational_geometry_chapters1-5_appendices_revised.pdf",
+    href: "/notes/bgr.pdf",
   },
 ];
