@@ -108,7 +108,7 @@ export const talks: Talk[] = [
     event: "Personal notes",
     date: "2026",
     kind: "note",
-    abstract: "Revised by GPT6 Astra Model.",
+    abstract: "Revised by GPT6 Astra Model and me. But be careful that, the revised version is very terse.",
     href: "/notes/bgr.pdf",
   },
 ];
