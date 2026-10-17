@@ -136,7 +136,7 @@ export function FamilyScene({ onBack }: { onBack: () => void }) {
     const vw = window.innerWidth, vh = window.innerHeight;
     const box = ctx.canvas.getBoundingClientRect();
     const s0 = Math.min(vw / 5.0, vh / 5.2);
-    const sf = compact ? Math.min(w * 0.32, h * 0.20) : Math.min(w * 0.24, (h - 230) * 0.29);
+    const sf = compact ? Math.min(w * 0.42, h * 0.27) : Math.min(w * 0.24, (h - 230) * 0.29);
     const camera = smooth(clamp01(age / MORPH));
     const CX = lerp(vw * 0.5 - 0.0275 * s0 - box.left, compact ? w * 0.50 : w * 0.58, camera);
     const CY = lerp(vh * 0.5 - box.top, compact ? h * 0.52 : h * 0.51, camera);
