@@ -283,6 +283,7 @@ export function FamilyScene({ onBack }: { onBack: () => void }) {
           <p className="family-intro">Select a marked curve. Follow a direction.</p>
         </div>
 
+        {import.meta.env.DEV && (
         <div className="family-controls">
           <button type="button" onClick={replay} aria-label="Replay the transformation">
             <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 7a6 6 0 1 1-.2 5M4 3v4h4" /></svg>replay
@@ -290,6 +291,7 @@ export function FamilyScene({ onBack }: { onBack: () => void }) {
           <span aria-hidden="true">/</span>
           <button type="button" onClick={() => setPaused(v => !v)} aria-pressed={paused} disabled={reduced}>{paused ? "resume" : "pause"}</button>
         </div>
+        )}
 
         <div className="family-art">
           <canvas
@@ -324,10 +326,9 @@ export function FamilyScene({ onBack }: { onBack: () => void }) {
             <p className="family-card-subtitle">{group.subtitle}</p>
             <div className="family-card-rule" />
             <div className="family-card-actions">
-              <button type="button" onClick={() => group.notes.length && openGroup(group)} disabled={!ready}>Open the notes</button>
-              {group.notes[0]?.href
-                ? <a href={group.notes[0].href} target="_blank" rel="noreferrer">PDF <span aria-hidden="true">↗</span></a>
-                : <span className="family-card-pending">PREVIEW <span aria-hidden="true">↗</span></span>}
+              <button type="button" onClick={() => group.notes.length && openGroup(group)} disabled={!ready}>
+                Open the notes <span aria-hidden="true">→</span>
+              </button>
             </div>
           </section>
         ))}
@@ -338,7 +339,6 @@ export function FamilyScene({ onBack }: { onBack: () => void }) {
             <span className="family-formula">{"{ C"}<sub>α</sub>{" }"}</span>
             <sub>α ∈ Δ</sub> — a family of notes
           </p>
-          <span className="family-reference">after Hartshorne (1977), III, Fig. 11</span>
           <button type="button" onClick={onBack}>← back to the resolution</button>
         </footer>
 
