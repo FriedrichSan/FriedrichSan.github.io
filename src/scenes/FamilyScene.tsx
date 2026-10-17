@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import { noteGroups, talks, type Talk } from "@/config";
 import { Card } from "@/components/Card";
 import { clamp01, lerp, INK, RED, useStage } from "@/lib/stage";
-import { FAMILY_DURATION } from "@/lib/curveFamily";
+import { sampleFamilySlerp, slerpProgress, slerpSpread, SLERP_DURATION } from "@/lib/curveFamilySlerp";
 import "./family.css";
 
 type Pt = [number, number];
@@ -42,6 +42,9 @@ function posedPoint(q: number, a: number, spread: number, camera: number, idle: 
 const familyPoint = (q: number, a: number, spread: number, idle: number): Pt =>
   posedPoint(q, a, spread, 1, idle);
 
+/* the small traveller dot: blue, so it never competes with the red marks */
+const BLUE = "#2b5fa8";
+
 const smooth = (t: number) => {
   const p = clamp01(t);
   return p * p * (3 - 2 * p);
@@ -64,6 +67,14 @@ export function FamilyScene({ onBack }: { onBack: () => void }) {
     notes: talks.filter(n => n.category === group.id),
   })), []);
   const [panel, setPanel] = useState<{ id: string; title: string; kicker: string; notes: Talk[] } | null>(null);
+  /* two entrances, picked at random each time the scene is opened */
+  const [variant] = useState<"turn" | "slerp">(() => {
+    if (import.meta.env.DEV) {
+      const forced = new URLSearchParams(location.search).get("variant");
+      if (forced === "turn" || forced === "slerp") return forced;
+    }
+    return Math.random() < 0.5 ? "turn" : "slerp";
+  });
   const [hovered, setHovered] = useState<string | null>(null);
   const [paused, setPaused] = useState(false);
   const [reduced, setReduced] = useState(false);
@@ -100,7 +111,7 @@ export function FamilyScene({ onBack }: { onBack: () => void }) {
     const dt = clock.current.last ? Math.min(0.06, time - clock.current.last) : 0;
     clock.current.last = time;
     if (!s.paused && !s.selected && FROZEN === null) clock.current.age += dt;
-    const age = s.reduced ? FAMILY_DURATION + 1 : (FROZEN ?? clock.current.age);
+    const age = s.reduced ? 12 : (FROZEN ?? clock.current.age);
 
     const compact = w < 900;
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
@@ -109,11 +120,12 @@ export function FamilyScene({ onBack }: { onBack: () => void }) {
     ctx.lineCap = "round";
     ctx.lineJoin = "round";
 
+    const gpt = variant === "slerp";
+    const revealAt = gpt ? SLERP_DURATION : REVEAL;
     const spreadAll = smooth(clamp01((age - 1.30) / 2.40));
     const idle = s.reduced ? 0 : Math.sin(Math.max(0, age - 3.9) * 0.34) * 0.016;
-    const notesIn = smooth(clamp01((age - REVEAL) / 0.90));
+    const notesIn = smooth(clamp01((age - revealAt) / 0.90));
     root.style.setProperty("--head", String(smooth(clamp01((age - 0.55) / 1.65))));
-
 
     const stroke = (pts: Pt[], color: string, width: number, alpha: number) => {
       if (pts.length < 2 || alpha <= 0) return;
@@ -129,50 +141,82 @@ export function FamilyScene({ onBack }: { onBack: () => void }) {
 
     paths.current.clear();
 
-    /* the seam: at camera 0 this reproduces the blow-up scene's last frame.
+    /* the seam: at progress 0 both entrances reproduce the blow-up's last frame.
        On phones the canvas is a smaller box inside the page, so the blow-up's
-       viewport coordinates are shifted by the canvas offset; the turn runs on
-       every screen size, not only on the desktop layout. */
+       viewport coordinates are shifted by the canvas offset. */
     const vw = window.innerWidth, vh = window.innerHeight;
     const box = ctx.canvas.getBoundingClientRect();
     const s0 = Math.min(vw / 5.0, vh / 5.2);
     const sf = compact ? Math.min(w * 0.42, h * 0.27) : Math.min(w * 0.24, (h - 230) * 0.29);
-    const camera = smooth(clamp01(age / MORPH));
-    const CX = lerp(vw * 0.5 - 0.0275 * s0 - box.left, compact ? w * 0.50 : w * 0.58, camera);
-    const CY = lerp(vh * 0.5 - box.top, compact ? h * 0.52 : h * 0.51, camera);
-    const SX = lerp(1.875 * s0, sf, camera);
-    const SY = lerp(s0, sf, camera);
-    const frame = ([X, Y]: Pt): Pt => [CX + X * SX, CY - Y * SY];
+    const famCx = compact ? w * 0.50 : w * 0.58;
+    const famCy = compact ? h * 0.52 : h * 0.51;
+    const settledProject = ([X, Y]: Pt): Pt => [famCx + X * sf, famCy - Y * sf];
 
     /* marked members last, so they sit on top */
     const members = [...PARAMETERS].sort((a, b) => Number(Math.abs(a) === 1) - Number(Math.abs(b) === 1));
 
-    /* the incoming curve: the strict transform itself, turning into place.
-       The chart's parameter range is narrower than the family's, so the curve
-       starts exactly on the blow-up frame and lengthens as it turns. */
-    {
-      const qa = 0.083 * (1 - camera);
-      const pts: Pt[] = [];
-      for (let i = 0; i <= SAMPLES; i++) pts.push(frame(posedPoint(qa + (1 - 2 * qa) * (i / SAMPLES), 0, 0, camera, idle)));
-      stroke(pts, INK, 2.2 - 0.65 * camera, 1);
-    }
+    if (gpt) {
+      /* the slerp entrance: one continuous movement, the spread starts late */
+      const e = slerpProgress(age);
+      const S = lerp(s0, sf, e);
+      const CXg = lerp(vw * 0.5 - 0.85 * s0 - box.left, famCx, e);
+      const CYg = lerp(vh * 0.5 - box.top, famCy, e);
+      const project = ([X, Y]: Pt): Pt => [CXg + X * S, CYg - Y * S];
+      const copies = slerpSpread(age);
+      const t = age;
+      for (const a of members) {
+        const group = groups.find(g => Math.abs(g.parameter - a) < 1e-6);
+        const opacity = a === 0 ? 1 : copies;
+        if (opacity <= 0.002) continue;
+        const pts: Pt[] = [];
+        for (let i = 0; i <= SAMPLES; i++) pts.push(project(sampleFamilySlerp(i / SAMPLES, a, t, s.reduced).point));
+        const active = group && s.hovered === group.id;
+        const width = group ? 1.9 : a === 0 ? lerp(2.2, 1.05, e) : 0.8;
+        const alpha = s.hovered
+          ? (active ? 0.98 : 0.2)
+          : group ? 0.86 : a === 0 ? lerp(1, 0.38, e) : 0.3 + 0.08 * (1 - Math.abs(a));
+        stroke(pts, active ? RED : INK, width + (active ? 0.45 : 0), opacity * alpha);
+        if (group && notesIn > 0.65) paths.current.set(group.id, pts);
+      }
+    } else {
+      /* the turning entrance: the camera turns, then the members separate */
+      const camera = smooth(clamp01(age / MORPH));
+      const CX = lerp(vw * 0.5 - 0.0275 * s0 - box.left, famCx, camera);
+      const CY = lerp(vh * 0.5 - box.top, famCy, camera);
+      const SX = lerp(1.875 * s0, sf, camera);
+      const SY = lerp(s0, sf, camera);
+      const frame = ([X, Y]: Pt): Pt => [CX + X * SX, CY - Y * SY];
 
-    for (const a of members) {
-      if (a === 0) continue;
-      const group = groups.find(g => Math.abs(g.parameter - a) < 1e-6);
-      /* outer members leave the centre curve a beat later: one gesture, not a fan */
-      const k = smooth(clamp01((spreadAll - 0.16 * Math.abs(a)) / 0.84));
-      if (k <= 0.02) continue;
-      const alphaIn = clamp01(k / 0.35);
-      const pts: Pt[] = [];
-      for (let i = 0; i <= SAMPLES; i++) pts.push(frame(familyPoint(i / SAMPLES, a, k, idle)));
-      const active = group && s.hovered === group.id;
-      const width = group ? 1.9 : a === 0 ? 1.55 : 0.8;
-      const alpha = s.hovered
-        ? (active ? 0.98 : 0.2)
-        : group ? 0.86 : a === 0 ? 0.8 : 0.3 + 0.08 * (1 - Math.abs(a));
-      stroke(pts, active ? RED : INK, width + (active ? 0.45 : 0), alphaIn * alpha);
-      if (group && notesIn > 0.65) paths.current.set(group.id, pts);
+      /* the strict transform itself; once the family opens it settles to the
+         same quiet grey as every unmarked member */
+      const centreGroup = groups.find(g => Math.abs(g.parameter) < 1e-6);
+      const fade = smooth(clamp01((age - MORPH) / 1.2));
+      const centreAlpha = centreGroup ? 1 : lerp(1, 0.38, fade);
+      const centreWidth = centreGroup ? 1.9 : lerp(2.2, 1.05, fade);
+      {
+        const qa = 0.083 * (1 - camera);
+        const pts: Pt[] = [];
+        for (let i = 0; i <= SAMPLES; i++) pts.push(frame(posedPoint(qa + (1 - 2 * qa) * (i / SAMPLES), 0, 0, camera, idle)));
+        stroke(pts, INK, centreWidth, centreAlpha);
+      }
+
+      for (const a of members) {
+        if (a === 0) continue;
+        const group = groups.find(g => Math.abs(g.parameter - a) < 1e-6);
+        /* outer members leave the centre curve a beat later: one gesture, not a fan */
+        const k = smooth(clamp01((spreadAll - 0.16 * Math.abs(a)) / 0.84));
+        if (k <= 0.02) continue;
+        const alphaIn = clamp01(k / 0.35);
+        const pts: Pt[] = [];
+        for (let i = 0; i <= SAMPLES; i++) pts.push(frame(familyPoint(i / SAMPLES, a, k, idle)));
+        const active = group && s.hovered === group.id;
+        const width = group ? 1.9 : 0.8;
+        const alpha = s.hovered
+          ? (active ? 0.98 : 0.2)
+          : group ? 0.86 : 0.3 + 0.08 * (1 - Math.abs(a));
+        stroke(pts, active ? RED : INK, width + (active ? 0.45 : 0), alphaIn * alpha);
+        if (group && notesIn > 0.65) paths.current.set(group.id, pts);
+      }
     }
 
     /* the marked points, their names, their leaders */
@@ -183,8 +227,8 @@ export function FamilyScene({ onBack }: { onBack: () => void }) {
       const card = cardRefs.current[index];
       if (!card) return;
       const q = group.parameter < 0 ? 0.06 : 0.94;
-      const [mx, my] = frame(familyPoint(q, group.parameter, 1, idle));
-      const [sx, sy] = frame(familyPoint(q, group.parameter, 1, 0));
+      const [mx, my] = settledProject(familyPoint(q, group.parameter, 1, idle));
+      const [sx, sy] = settledProject(familyPoint(q, group.parameter, 1, 0));
 
       ctx.globalAlpha = notesIn;
       ctx.beginPath();
@@ -199,11 +243,16 @@ export function FamilyScene({ onBack }: { onBack: () => void }) {
       /* a small traveller drifting along the marked curve */
       if (notesIn >= 1) {
         const t = ((age * 0.035 + index * 0.43) % 0.9) + 0.04;
-        const [dx, dy] = frame(familyPoint(t, group.parameter, 1, idle));
+        const [dx, dy] = settledProject(familyPoint(t, group.parameter, 1, idle));
         ctx.beginPath();
-        ctx.arc(dx, dy, 2.1, 0, Math.PI * 2);
-        ctx.fillStyle = RED;
-        ctx.globalAlpha = s.hovered === group.id ? 0.12 : 0.48;
+        ctx.arc(dx, dy, 5.4, 0, Math.PI * 2);
+        ctx.fillStyle = "rgba(43,95,168,0.16)";
+        ctx.globalAlpha = s.hovered === group.id ? 0.3 : 1;
+        ctx.fill();
+        ctx.beginPath();
+        ctx.arc(dx, dy, 2.6, 0, Math.PI * 2);
+        ctx.fillStyle = BLUE;
+        ctx.globalAlpha = s.hovered === group.id ? 0.25 : 0.95;
         ctx.fill();
         ctx.globalAlpha = 1;
       }
@@ -252,7 +301,7 @@ export function FamilyScene({ onBack }: { onBack: () => void }) {
     }
     root.dataset.animationTime = age.toFixed(2);
     if (notesIn >= 0.7 && !clock.current.ready) { clock.current.ready = true; setReady(true); }
-  }, [groups]);
+  }, [groups, variant]);
 
   const canvasRef = useStage(draw);
 
