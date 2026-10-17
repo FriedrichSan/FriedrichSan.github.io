@@ -129,14 +129,19 @@ export function FamilyScene({ onBack }: { onBack: () => void }) {
 
     paths.current.clear();
 
-    /* the seam: at camera 0 this reproduces the blow-up scene's last frame */
-    const s0 = Math.min(w / 5.0, h / 5.2);
+    /* the seam: at camera 0 this reproduces the blow-up scene's last frame.
+       On phones the canvas is a smaller box inside the page, so the blow-up's
+       viewport coordinates are shifted by the canvas offset; the turn runs on
+       every screen size, not only on the desktop layout. */
+    const vw = window.innerWidth, vh = window.innerHeight;
+    const box = ctx.canvas.getBoundingClientRect();
+    const s0 = Math.min(vw / 5.0, vh / 5.2);
     const sf = compact ? Math.min(w * 0.32, h * 0.20) : Math.min(w * 0.24, (h - 230) * 0.29);
-    const camera = compact ? 1 : smooth(clamp01(age / MORPH));
-    const CX = compact ? w * 0.50 : lerp(w * 0.5 - 0.0275 * s0, w * 0.58, camera);
-    const CY = compact ? h * 0.52 : lerp(h * 0.5, h * 0.51, camera);
-    const SX = compact ? sf : lerp(1.875 * s0, sf, camera);
-    const SY = compact ? sf : lerp(s0, sf, camera);
+    const camera = smooth(clamp01(age / MORPH));
+    const CX = lerp(vw * 0.5 - 0.0275 * s0 - box.left, compact ? w * 0.50 : w * 0.58, camera);
+    const CY = lerp(vh * 0.5 - box.top, compact ? h * 0.52 : h * 0.51, camera);
+    const SX = lerp(1.875 * s0, sf, camera);
+    const SY = lerp(s0, sf, camera);
     const frame = ([X, Y]: Pt): Pt => [CX + X * SX, CY - Y * SY];
 
     /* marked members last, so they sit on top */
