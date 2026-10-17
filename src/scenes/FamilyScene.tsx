@@ -15,7 +15,9 @@ const REVEAL = 3.85;     // the notes appear once the family has settled
 const CAM_THETA = 2.7;
 const CAM_PHI = 1.35;
 
-/* The curve seen from camera angle `camera` ∈ [0,1]: 0 is the chart of the
+/* The family is drawn after Hartshorne, Algebraic Geometry (1977), III Fig. 11;
+   the attribution lives here rather than on the page.
+   The curve seen from camera angle `camera` ∈ [0,1]: 0 is the chart of the
    blow-up scene (face on), 1 is the settled pose of the family. `spread`
    pushes a member out of the centre curve in depth. */
 function posedPoint(q: number, a: number, spread: number, camera: number, idle: number): Pt {
