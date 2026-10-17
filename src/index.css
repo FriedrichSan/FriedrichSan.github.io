@@ -108,3 +108,7 @@ body {
 .scene-fade {
   animation: scene-fade 0.45s ease-out both;
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .scene-fade, .card-pop { animation: none; }
+}

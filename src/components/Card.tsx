@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useId, useRef } from "react";
 import { RED } from "@/lib/stage";
 
 interface CardProps {
@@ -11,12 +11,31 @@ interface CardProps {
 
 // manuscript-style modal card
 export const Card: React.FC<CardProps> = ({ open, onClose, kicker, title, children }) => {
+  const panelRef = useRef<HTMLDivElement>(null);
+  const closeRef = useRef(onClose);
+  closeRef.current = onClose;
+  const headingId = useId();
+
   useEffect(() => {
     if (!open) return;
-    const onKey = (e: KeyboardEvent) => e.key === "Escape" && onClose();
+    const previousFocus = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+    panelRef.current?.querySelector<HTMLButtonElement>("button")?.focus({ preventScroll: true });
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") closeRef.current();
+      if (e.key !== "Tab") return;
+      const targets = panelRef.current?.querySelectorAll<HTMLElement>("button:not([disabled]), a[href], [tabindex='0']");
+      if (!targets?.length) return;
+      const first = targets[0];
+      const last = targets[targets.length - 1];
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    };
     window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, [open, onClose]);
+    return () => {
+      window.removeEventListener("keydown", onKey);
+      if (previousFocus?.isConnected) previousFocus.focus({ preventScroll: true });
+    };
+  }, [open]);
 
   if (!open) return null;
   return (
@@ -25,6 +44,10 @@ export const Card: React.FC<CardProps> = ({ open, onClose, kicker, title, childr
       onClick={onClose}
     >
       <div
+        ref={panelRef}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby={headingId}
         className="card-pop relative max-h-[82vh] w-full max-w-lg overflow-y-auto border border-stone-800/25 bg-[#fbf7ee] p-7 shadow-[6px_8px_0_rgba(43,41,37,0.18)]"
         onClick={(e) => e.stopPropagation()}
       >
@@ -40,7 +63,7 @@ export const Card: React.FC<CardProps> = ({ open, onClose, kicker, title, childr
             {kicker}
           </div>
         )}
-        <h2 className="mb-4 font-serif text-2xl leading-snug text-stone-900">{title}</h2>
+        <h2 id={headingId} className="mb-4 font-serif text-2xl leading-snug text-stone-900">{title}</h2>
         <div className="font-serif text-[15px] leading-relaxed text-stone-700">{children}</div>
       </div>
     </div>

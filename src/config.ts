@@ -28,39 +28,68 @@ export interface Work {
 
 export const papers: Work[] = [];
 
-// Talk 与 Note —— 排布在 strict transform 扭成的 twisted cubic 上
+// Talk 与 Note —— 按主题排布在 strict transform 展开的 curve family 上。
+// 每个 note 用 category 指定它属于哪个方向，没写的会归到 "Other"。
 export interface Talk {
+  id?: string;
   title: string;
   event: string;
   date: string;
   kind: "talk" | "note";
+  category?: string;
   abstract: string;
-  href: string;
+  href?: string;
 }
+
+// 方向 —— 每个方向在曲线族里占一条曲线。
+// parameter ∈ [-1, 1]：负数画在左边、正数画在右边；曲线只有 7 条
+// （-1, -0.65, -0.32, 0, 0.32, 0.65, 1），所以最多 6 个方向（0 留给过场那条曲线）。
+export const noteGroups = [
+  {
+    id: "birational",
+    title: "Birational geometry",
+    subtitle: "birational maps & the minimal model program",
+    symbol: "B",
+    parameter: -1,
+  },
+  {
+    id: "vmrt",
+    title: "VMRT",
+    subtitle: "varieties of minimal rational tangents",
+    symbol: "V",
+    parameter: 1,
+  },
+] as const;
 
 export const talks: Talk[] = [
   {
+    id: "birational-geometry-seminar",
     title: "Birational Geometry Seminar",
     event: "Personal notes",
     date: "2026",
     kind: "note",
+    category: "birational",
     abstract: "A seminar lecture note in Birational Geometry, especially the Minimal Model Program",
     href: "/notes/birational-geometry.pdf",
   },
   {
-    title: "VMRT SEMINAR",
-    event: "Personal notes",
-    date: "2026",
-    kind: "note",
-    abstract: "Revised by GPT6 Astra Model and written by me. An introduction of (relative) Hilbert schemes preparing for application in birational geometry",
-    href: "/notes/vmrt_seminar_hilbert_schemes.pdf",
-  },
-  {
+    id: "birational-geometry-revised",
     title: "Birational Geometry revised",
     event: "Personal notes",
     date: "2026",
     kind: "note",
+    category: "birational",
     abstract: "Revised by GPT6 Astra Model and me. But be careful that, the revised version is very terse.",
     href: "/notes/bgr.pdf",
+  },
+  {
+    id: "vmrt-notes",
+    title: "VMRT SEMINAR",
+    event: "Personal notes",
+    date: "2026",
+    kind: "note",
+    category: "vmrt",
+    abstract: "Revised by GPT6 Astra Model and written by me. An introduction of (relative) Hilbert schemes preparing for application in birational geometry",
+    href: "/notes/vmrt_seminar_hilbert_schemes.pdf",
   },
 ];

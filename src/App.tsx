@@ -3,13 +3,25 @@ import { site } from "@/config";
 import { NodeScene } from "@/scenes/NodeScene";
 import { BlowupScene } from "@/scenes/BlowupScene";
 import { CircleScene } from "@/scenes/CircleScene";
-import { CubicScene } from "@/scenes/CubicScene";
+import { FamilyScene } from "@/scenes/FamilyScene";
 
-type Scene = "node" | "blowup" | "circle" | "cubic";
+type Scene = "node" | "blowup" | "circle" | "family";
+
+const getInitialScene = (): Scene => {
+  const standalonePreview = import.meta.env.VITE_FAMILY_PREVIEW === "true";
+  if (!import.meta.env.DEV && !standalonePreview) return "node";
+
+  const requested = new URLSearchParams(window.location.search).get("scene");
+  if (requested === "family" || requested === "blowup") return requested;
+  return standalonePreview ? "family" : "node";
+};
 
 function App() {
-  const [scene, setScene] = useState<Scene>("node");
-  const [resolvedSeen, setResolvedSeen] = useState(false);
+  const initialScene = getInitialScene();
+  const [scene, setScene] = useState<Scene>(initialScene);
+  const [resolvedSeen, setResolvedSeen] = useState(
+    initialScene === "family" || initialScene === "blowup"
+  );
 
   return (
     <div className="relative h-full w-full">
@@ -27,19 +39,19 @@ function App() {
       </header>
 
       <main className="h-full w-full" key={scene}>
-        <div className="scene-fade h-full w-full">
+        <div className={scene === "family" ? "h-full w-full" : "scene-fade h-full w-full"}>
           {scene === "node" && <NodeScene onBlowup={() => setScene("blowup")} />}
           {scene === "blowup" && (
             <BlowupScene
               startResolved={resolvedSeen}
               onResolved={() => setResolvedSeen(true)}
               onPapers={() => setScene("circle")}
-              onTalks={() => setScene("cubic")}
+              onTalks={() => setScene("family")}
               onBack={() => setScene("node")}
             />
           )}
           {scene === "circle" && <CircleScene onBack={() => setScene("blowup")} />}
-          {scene === "cubic" && <CubicScene onBack={() => setScene("blowup")} />}
+          {scene === "family" && <FamilyScene onBack={() => setScene("blowup")} />}
         </div>
       </main>
     </div>

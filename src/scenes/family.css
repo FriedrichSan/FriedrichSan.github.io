@@ -1,0 +1,365 @@
+/* ------------------------------------------------------------------
+   A family of notes — the art is full bleed, the reading rail floats
+   beside the two marked members of the family.
+   ------------------------------------------------------------------ */
+
+.family-scroll {
+  height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.family-scene {
+  --family-gutter: clamp(24px, 6.3vw, 96px);
+  --reveal: 0;
+  position: relative;
+  width: 100%;
+  min-height: 100svh;
+  overflow: hidden;
+  color: #2b2925;
+  font-family: Georgia, "Times New Roman", serif;
+  background: #f6f1e6;
+}
+
+/* ---------- heading ---------- */
+.family-heading {
+  opacity: var(--head, 0);
+  position: absolute;
+  left: var(--family-gutter);
+  top: clamp(84px, 12.5vh, 132px);
+  z-index: 3;
+  max-width: 34ch;
+  pointer-events: none;
+}
+
+.family-eyebrow {
+  margin: 0;
+  color: #956553;
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.family-heading h1 {
+  margin: 9px 0 10px;
+  font-size: clamp(30px, 3.2vw, 43px);
+  font-style: italic;
+  font-weight: 400;
+  line-height: 1.1;
+  letter-spacing: -0.035em;
+}
+
+.family-intro {
+  margin: 0;
+  color: #8b8375;
+  font-size: 12px;
+  font-style: italic;
+  line-height: 1.6;
+}
+
+/* ---------- controls ---------- */
+.family-controls {
+  opacity: var(--head, 0);
+  position: absolute;
+  right: 5%;
+  top: clamp(86px, 12.8vh, 134px);
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #b0a595;
+  font-size: 12px;
+  font-style: italic;
+}
+
+.family-controls button {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  min-height: 36px;
+  color: #7c7366;
+  font: inherit;
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+
+.family-controls svg {
+  width: 14px;
+  height: 14px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 1.15;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.family-controls button:hover { color: #b3362b; }
+
+/* ---------- art ---------- */
+.family-art {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+.family-canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* ---------- the two notes ---------- */
+.family-card {
+  position: absolute;
+  z-index: 4;
+  width: min(330px, 27vw);
+  opacity: 0;
+}
+
+
+
+.family-card-topline {
+  display: flex;
+  align-items: baseline;
+  gap: 13px;
+  color: #9a8b78;
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.family-card-symbol {
+  color: #b3362b;
+  font-size: 16px;
+  font-style: italic;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.family-card-symbol sub { font-size: 9px; }
+
+.family-card h2 {
+  margin: 7px 0 0;
+  color: #39342d;
+  font-size: clamp(22px, 2.05vw, 27px);
+  font-weight: 400;
+  font-style: italic;
+  line-height: 1.15;
+  letter-spacing: -0.03em;
+  transition: color 200ms;
+}
+
+.family-card[data-active="true"] h2 { color: #b3362b; }
+
+.family-card-subtitle {
+  margin: 6px 0 0;
+  max-width: 30ch;
+  color: #948b7d;
+  font-size: 12px;
+  font-style: italic;
+  line-height: 1.45;
+}
+
+.family-card-rule {
+  height: 1px;
+  margin: 14px 0 9px;
+  background: #b3a58b55;
+}
+
+.family-card-actions {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.family-card-actions button,
+.family-card-actions a,
+.family-card-actions span {
+  font: inherit;
+  font-size: 12px;
+  font-style: italic;
+  color: #5f574b;
+  background: none;
+  border: 0;
+  padding: 0;
+}
+
+.family-card-actions a,
+.family-card-actions .family-card-pending {
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #96826b;
+  text-decoration: none;
+}
+
+.family-card-actions button { cursor: pointer; }
+.family-card-actions button:hover,
+.family-card-actions a:hover { color: #b3362b; }
+.family-card-actions button:disabled { opacity: 0.4; cursor: default; }
+
+/* ---------- footer ---------- */
+.family-footer {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 22px;
+  z-index: 3;
+  text-align: center;
+  pointer-events: none;
+}
+
+.family-phase {
+  display: block;
+  margin-bottom: 12px;
+  color: #a2947f;
+  font-size: 11px;
+  font-style: italic;
+  letter-spacing: 0.02em;
+}
+
+.family-footer p {
+  margin: 0;
+  color: #5c5449;
+  font-size: 15px;
+  font-style: italic;
+  letter-spacing: 0.02em;
+}
+
+.family-formula { color: #423b31; }
+
+.family-reference {
+  display: block;
+  margin-top: 5px;
+  color: #a4977f;
+  font-size: 10px;
+  font-style: italic;
+}
+
+.family-footer button {
+  display: inline-block;
+  min-height: 34px;
+  margin-top: 6px;
+  color: #9a8b74;
+  font: inherit;
+  font-size: 13px;
+  font-style: italic;
+  background: none;
+  border: 0;
+  cursor: pointer;
+  text-decoration: underline;
+  text-decoration-color: #b3a58b66;
+  text-underline-offset: 5px;
+  pointer-events: auto;
+}
+
+.family-footer button:hover { color: #51473a; }
+
+/* ---------- inside the dialog ---------- */
+.family-note-list { list-style: none; margin: 0; padding: 0; }
+.family-note-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 9px 0;
+  border-top: 1px solid #b3a58b40;
+  font-size: 13px;
+  font-style: italic;
+  color: #5f574b;
+}
+.family-note-row:last-child { border-bottom: 1px solid #b3a58b40; }
+.family-note-row-title { flex: 1; }
+.family-note-row a { color: #9b3028; text-decoration: none; white-space: nowrap; }
+.family-note-row a:hover { color: #b3362b; }
+.family-note-row-pending { font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase; color: #a08d78; }
+
+.family-card-link {
+  display: inline-flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 24px;
+  max-width: 100%;
+  padding-bottom: 6px;
+  color: #9b3028;
+  font-style: italic;
+  line-height: 1.5;
+  border-bottom: 1px solid #b3362b66;
+}
+
+.family-card-link:hover { color: #b3362b; }
+
+.family-pdf-pending {
+  padding-top: 14px;
+  border-top: 1px solid #b3a58b55;
+  color: #8f7b60;
+  font-size: 13px;
+  font-style: italic;
+  line-height: 1.6;
+}
+
+.family-card button:focus-visible,
+.family-card-actions a:focus-visible,
+.family-controls button:focus-visible,
+.family-footer button:focus-visible {
+  outline: 1px solid #b3362b;
+  outline-offset: 5px;
+}
+
+/* ---------- narrow screens ---------- */
+@media (max-width: 899px) {
+  .family-scene {
+    display: flex;
+    flex-direction: column;
+    min-height: 100svh;
+    padding: 78px 24px 26px;
+    overflow: visible;
+  }
+
+  .family-heading {
+    position: static;
+    max-width: none;
+  }
+
+  .family-heading h1 { font-size: clamp(29px, 7.6vw, 38px); }
+
+  .family-controls {
+    position: static;
+    justify-content: flex-start;
+    margin-top: 2px;
+  }
+
+  .family-art {
+    position: relative;
+    inset: auto;
+    height: 50svh;
+    min-height: 280px;
+    margin: 4px -6px 10px;
+  }
+
+  .family-card {
+    position: static;
+    width: 100%;
+    max-width: none;
+    padding-top: 14px;
+    border-top: 1px solid #b3a58b66;
+  }
+
+  .family-card + .family-card { margin-top: 18px; }
+
+  .family-card h2 { font-size: 25px; }
+
+  .family-footer {
+    position: static;
+    margin-top: 24px;
+    padding-bottom: 6px;
+  }
+
+  .family-footer p { font-size: 14px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .family-card h2 { transition: none; }
+}
