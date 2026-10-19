@@ -358,6 +358,22 @@
   }
 
   .family-footer p { font-size: 14px; }
+
+  /* the scene scrolls under the header on a phone; keep a paper band behind
+     the masthead and fade its lower edge, so curves never run through the name */
+  .family-header {
+    background: #f6f1e6;
+  }
+
+  .family-header::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 100%;
+    height: 34px;
+    background: linear-gradient(to bottom, #f6f1e6, rgba(246, 241, 230, 0));
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -26,7 +26,7 @@ function App() {
   return (
     <div className="relative h-full w-full">
       {/* header */}
-      <header className="pointer-events-none absolute left-0 right-0 top-0 z-40 flex items-baseline justify-between px-6 py-4">
+      <header className={`pointer-events-none absolute left-0 right-0 top-0 z-40 flex items-baseline justify-between px-6 py-4 ${scene === "family" ? "family-header" : ""}`}>
         <button
           onClick={() => setScene("node")}
           className="pointer-events-auto font-serif text-lg italic text-stone-800 hover:text-red-800"

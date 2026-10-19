@@ -53,6 +53,13 @@ export const noteGroups = [
     parameter: -1,
   },
   {
+    id: "modern-mmp",
+    title: "Modern Minimal Model Program",
+    subtitle: "flips, termination & abundance",
+    symbol: "M",
+    parameter: -0.5,
+  },
+  {
     id: "vmrt",
     title: "VMRT",
     subtitle: "varieties of minimal rational tangents",

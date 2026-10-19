@@ -60,12 +60,26 @@ const FROZEN = (() => {
 })();
 
 export function FamilyScene({ onBack }: { onBack: () => void }) {
-  const groups = useMemo(() => noteGroups.map(group => ({
-    ...group,
-    /* the card sits on the nearest member of the family, whatever the config asks for */
-    parameter: PARAMETERS.reduce((best, p) => (Math.abs(p - group.parameter) < Math.abs(best - group.parameter) ? p : best), PARAMETERS[0]),
-    notes: talks.filter(n => n.category === group.id),
-  })), []);
+  const groups = useMemo(() => {
+    const list = noteGroups.map(group => ({
+      ...group,
+      /* the card sits on the nearest member of the family, whatever the config asks for */
+      parameter: PARAMETERS.reduce((best, p) => (Math.abs(p - group.parameter) < Math.abs(best - group.parameter) ? p : best), PARAMETERS[0]),
+      notes: talks.filter(n => n.category === group.id),
+    }));
+    /* spread the markers along each side, so two neighbouring directions do not
+       stack their dots and initials on top of each other */
+    const left = list.filter(g => g.parameter < 0).sort((a, b) => a.parameter - b.parameter);
+    const right = list.filter(g => g.parameter > 0).sort((a, b) => b.parameter - a.parameter);
+    return list.map(group => ({
+      ...group,
+      q: group.parameter < 0
+        ? 0.06 + left.findIndex(g => g.id === group.id) * 0.08
+        : group.parameter > 0
+          ? 0.94 - right.findIndex(g => g.id === group.id) * 0.08
+          : 0.5,
+    }));
+  }, []);
   const [panel, setPanel] = useState<{ id: string; title: string; kicker: string; notes: Talk[] } | null>(null);
   /* two entrances, picked at random each time the scene is opened */
   const [variant] = useState<"turn" | "slerp">(() => {
@@ -226,7 +240,7 @@ export function FamilyScene({ onBack }: { onBack: () => void }) {
     groups.forEach((group, index) => {
       const card = cardRefs.current[index];
       if (!card) return;
-      const q = group.parameter < 0 ? 0.06 : 0.94;
+      const q = group.q;
       const [mx, my] = settledProject(familyPoint(q, group.parameter, 1, idle));
       const [sx, sy] = settledProject(familyPoint(q, group.parameter, 1, 0));
 
@@ -273,10 +287,13 @@ export function FamilyScene({ onBack }: { onBack: () => void }) {
         [anchors.filter(a => a.parameter > 0).sort((a, b) => a.sy - b.sy), "right"],
       ];
       for (const [list, side] of columns) {
-        let floor = side === "left" ? 210 : 92;
+        let floor = side === "left" ? 230 : 92;
         for (const a of list) {
+          /* keep the left column on a quiet rail instead of letting cards drift
+             toward the curves as markers spread along a member */
+          const rail = Math.max(32, Math.min(w * 0.11, w - a.cw - 32));
           const left = side === "left"
-            ? Math.max(32, Math.min(w - a.cw - 32, a.sx - a.cw - 110))
+            ? rail
             : Math.max(32, Math.min(w - a.cw - 32, a.sx + 58));
           const wanted = side === "left" ? a.sy - a.ch - 22 : a.sy - 24;
           const top = Math.min(Math.max(wanted, floor), h - a.ch - 26);
@@ -353,7 +370,7 @@ export function FamilyScene({ onBack }: { onBack: () => void }) {
           <canvas
             ref={canvasRef}
             className="family-canvas"
-            aria-label="An animated family of curves with two marked members leading to the Birational geometry and VMRT notes."
+            aria-label="An animated family of curves with one marked member for each direction of notes."
             onPointerMove={event => { if (event.pointerType === "mouse") setHovered(pick(event)); }}
             onPointerLeave={() => setHovered(null)}
             onClick={event => {
@@ -361,7 +378,7 @@ export function FamilyScene({ onBack }: { onBack: () => void }) {
               const group = groups.find(g => g.id === id);
               if (group?.notes.length) openGroup(group);
             }}
-            style={{ cursor: hovered ? "pointer" : "default" }}
+            style={{ cursor: groups.some(g => g.id === hovered && g.notes.length) ? "pointer" : "default" }}
           />
         </div>
 
@@ -376,15 +393,23 @@ export function FamilyScene({ onBack }: { onBack: () => void }) {
           >
             <div className="family-card-topline">
               <span className="family-card-symbol">{group.symbol}<sub>α</sub></span>
-              <span>{String(group.notes.length).padStart(2, "0")} {group.notes.length === 1 ? "note" : "notes"}</span>
+              <span>
+                {group.notes.length === 0
+                  ? "in preparation"
+                  : `${String(group.notes.length).padStart(2, "0")} ${group.notes.length === 1 ? "note" : "notes"}`}
+              </span>
             </div>
             <h2>{group.title}</h2>
             <p className="family-card-subtitle">{group.subtitle}</p>
             <div className="family-card-rule" />
             <div className="family-card-actions">
-              <button type="button" onClick={() => group.notes.length && openGroup(group)} disabled={!ready}>
-                Open the notes <span aria-hidden="true">→</span>
-              </button>
+              {group.notes.length > 0 ? (
+                <button type="button" onClick={() => openGroup(group)} disabled={!ready}>
+                  Open the notes <span aria-hidden="true">→</span>
+                </button>
+              ) : (
+                <span className="family-card-pending">notes forthcoming</span>
+              )}
             </div>
           </section>
         ))}
