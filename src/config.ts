@@ -44,9 +44,11 @@ export interface Talk {
 // 方向 —— 每个方向在曲线族里占一条曲线。
 // parameter ∈ [-1, 1]：负数画在左边、正数画在右边；曲线只有 7 条
 // （-1, -0.65, -0.32, 0, 0.32, 0.65, 1），所以最多 6 个方向（0 留给过场那条曲线）。
+// number 是卡片上的方向编号，与曲线位置无关，按加入方向的先后排。
 export const noteGroups = [
   {
     id: "birational",
+    number: 1,
     title: "Birational geometry",
     subtitle: "birational maps & the minimal model program",
     symbol: "B",
@@ -54,6 +56,7 @@ export const noteGroups = [
   },
   {
     id: "modern-mmp",
+    number: 3,
     title: "Modern Minimal Model Program",
     subtitle: "flips, termination & abundance",
     symbol: "M",
@@ -61,6 +64,7 @@ export const noteGroups = [
   },
   {
     id: "vmrt",
+    number: 2,
     title: "VMRT",
     subtitle: "varieties of minimal rational tangents",
     symbol: "V",

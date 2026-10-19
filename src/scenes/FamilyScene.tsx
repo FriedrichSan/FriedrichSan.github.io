@@ -393,11 +393,7 @@ export function FamilyScene({ onBack }: { onBack: () => void }) {
           >
             <div className="family-card-topline">
               <span className="family-card-symbol">{group.symbol}<sub>α</sub></span>
-              <span>
-                {group.notes.length === 0
-                  ? "in preparation"
-                  : `${String(group.notes.length).padStart(2, "0")} ${group.notes.length === 1 ? "note" : "notes"}`}
-              </span>
+              <span>{String(group.number).padStart(2, "0")} NOTES</span>
             </div>
             <h2>{group.title}</h2>
             <p className="family-card-subtitle">{group.subtitle}</p>
