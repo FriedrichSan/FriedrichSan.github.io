@@ -33,8 +33,16 @@ function App() {
         >
           {site.name}
         </button>
-        <div className="font-serif text-xs italic text-stone-400">
-          a homepage, resolved by blow-up
+        <div className="flex items-baseline gap-5">
+          <div className="hidden font-serif text-xs italic text-stone-400 sm:block">
+            a homepage, resolved by blow-up
+          </div>
+          <a
+            href="/minimal.html"
+            className="pointer-events-auto font-serif text-xs italic text-stone-600 underline decoration-stone-300 underline-offset-4 hover:text-red-800"
+          >
+            Minimal Model Version
+          </a>
         </div>
       </header>
 
