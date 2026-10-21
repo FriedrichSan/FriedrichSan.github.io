@@ -128,6 +128,7 @@ export function FamilyScene({ onBack }: { onBack: () => void }) {
     const age = s.reduced ? 12 : (FROZEN ?? clock.current.age);
 
     const compact = w < 900;
+    const landscape = window.innerWidth <= 1100 && window.innerHeight <= 520 && window.innerWidth > window.innerHeight;
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     ctx.clearRect(0, 0, w, h);
@@ -161,7 +162,9 @@ export function FamilyScene({ onBack }: { onBack: () => void }) {
     const vw = window.innerWidth, vh = window.innerHeight;
     const box = ctx.canvas.getBoundingClientRect();
     const s0 = Math.min(vw / 5.0, vh / 5.2);
-    const sf = compact ? Math.min(w * 0.42, h * 0.27) : Math.min(w * 0.24, (h - 230) * 0.29);
+    const sf = landscape
+      ? Math.min(w * 0.34, h * 0.30)
+      : compact ? Math.min(w * 0.42, h * 0.27) : Math.min(w * 0.24, (h - 230) * 0.29);
     const famCx = compact ? w * 0.50 : w * 0.58;
     const famCy = compact ? h * 0.52 : h * 0.51;
     const settledProject = ([X, Y]: Pt): Pt => [famCx + X * sf, famCy - Y * sf];
@@ -382,7 +385,8 @@ export function FamilyScene({ onBack }: { onBack: () => void }) {
           />
         </div>
 
-        {groups.map((group, index) => (
+        <div className="family-cards">
+          {groups.map((group, index) => (
           <section
             key={group.id}
             ref={el => { cardRefs.current[index] = el; }}
@@ -408,7 +412,8 @@ export function FamilyScene({ onBack }: { onBack: () => void }) {
               )}
             </div>
           </section>
-        ))}
+          ))}
+        </div>
 
         <footer className="family-footer">
           <span className="family-phase" ref={phaseRef}>a family opens in space</span>
