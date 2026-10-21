@@ -115,7 +115,7 @@ export const Callout: React.FC<CalloutProps> = ({
       <button
         ref={labelRef}
         onClick={onClick}
-        className={`pointer-events-auto absolute -translate-x-1/2 -translate-y-1/2 text-left ${
+        className={`callout-label pointer-events-auto absolute -translate-x-1/2 -translate-y-1/2 text-left ${
           onClick ? "cursor-pointer" : "cursor-default"
         }`}
         style={{ left: lx, top: ly - 14 }}

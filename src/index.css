@@ -130,6 +130,22 @@ body {
   right: 0;
 }
 
+/* callout labels are text-only; give them a larger touch target, and on the
+   narrowest screens shrink the type so the label can sit beside the curve */
+.callout-label::before {
+  content: "";
+  position: absolute;
+  top: -12px;
+  bottom: -12px;
+  left: -8px;
+  right: -8px;
+}
+
+@media (max-width: 340px) {
+  .callout-label > span:first-child { font-size: 15px; }
+  .callout-label > span:last-child { font-size: 10px; }
+}
+
 @keyframes scene-fade {
   from { opacity: 0; }
   to { opacity: 1; }
