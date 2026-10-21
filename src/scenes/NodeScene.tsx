@@ -42,7 +42,7 @@ export const NodeScene: React.FC<Props> = ({ onBlowup }) => {
       ctx.font = "italic 13px Georgia, serif";
       ctx.fillStyle = "rgba(43,41,37,0.45)";
       ctx.fillText("x", p(3.8, 0)[0] + 4, p(3.8, 0)[1] - 6);
-      ctx.fillText("y", p(0, 3)[0] + 6, p(0, 3)[1] + 4);
+      if (cw >= 340) ctx.fillText("y", p(0, 3)[0] + 6, p(0, 3)[1] + 4);
 
       // the node, drawing itself in
       const reveal = easeOutCubic(clamp01(t / 1.7));
@@ -65,10 +65,13 @@ export const NodeScene: React.FC<Props> = ({ onBlowup }) => {
         ctx.arc(sx, sy, 2.2, 0, Math.PI * 2);
         ctx.fillStyle = RED;
         ctx.fill();
-        // equation caption, faint
-        ctx.font = "italic 15px Georgia, serif";
-        ctx.fillStyle = "rgba(43,41,37,0.55)";
-        ctx.fillText("C : y² = x³ + x²", p(-1.25, 2.6)[0], p(-1.25, 2.6)[1]);
+        // equation caption, faint; on very narrow screens it would collide
+        // with the callout label, so it is omitted there
+        if (cw >= 340) {
+          ctx.font = "italic 15px Georgia, serif";
+          ctx.fillStyle = "rgba(43,41,37,0.55)";
+          ctx.fillText("C : y² = x³ + x²", p(-1.25, 2.6)[0], p(-1.25, 2.6)[1]);
+        }
       }
     },
     [cam.cx, cam.cy, cam.scale]
@@ -79,7 +82,7 @@ export const NodeScene: React.FC<Props> = ({ onBlowup }) => {
   // callout geometry (responsive)
   const offX = w < 640 ? -70 : -210;
   const offY = h < 560 ? -80 : -128;
-  const lx = Math.max(110, singX + offX);
+  const lx = Math.max(130, singX + offX);
   const ly = Math.max(64, singY + offY);
   const ready = true; // callout fades in via delay
 

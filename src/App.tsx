@@ -39,7 +39,7 @@ function App() {
           </div>
           <a
             href="/minimal.html"
-            className="pointer-events-auto font-serif text-xs italic text-stone-600 underline decoration-stone-300 underline-offset-4 hover:text-red-800"
+            className="minimal-link pointer-events-auto font-serif text-xs italic text-stone-600 underline decoration-stone-300 underline-offset-4 hover:text-red-800"
           >
             Minimal Model Version
           </a>

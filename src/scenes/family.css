@@ -14,6 +14,7 @@
   --reveal: 0;
   position: relative;
   width: 100%;
+  min-height: 100vh;
   min-height: 100svh;
   overflow: hidden;
   color: #2b2925;
@@ -195,7 +196,15 @@
   text-decoration: none;
 }
 
-.family-card-actions button { cursor: pointer; }
+.family-card-actions button { position: relative; cursor: pointer; }
+.family-card-actions button::before {
+  content: "";
+  position: absolute;
+  top: -12px;
+  bottom: -12px;
+  left: 0;
+  right: 0;
+}
 .family-card-actions button:hover,
 .family-card-actions a:hover { color: #b3362b; }
 .family-card-actions button:disabled { opacity: 0.4; cursor: default; }
@@ -285,6 +294,7 @@
 }
 
 .family-card-link {
+  position: relative;
   display: inline-flex;
   align-items: baseline;
   justify-content: space-between;
@@ -295,6 +305,15 @@
   font-style: italic;
   line-height: 1.5;
   border-bottom: 1px solid #b3362b66;
+}
+
+.family-card-link::before {
+  content: "";
+  position: absolute;
+  top: -7px;
+  bottom: -7px;
+  left: 0;
+  right: 0;
 }
 
 .family-card-link:hover { color: #b3362b; }
@@ -321,6 +340,7 @@
   .family-scene {
     display: flex;
     flex-direction: column;
+    min-height: 100vh;
     min-height: 100svh;
     padding: 78px 24px 26px;
     overflow: visible;
@@ -342,6 +362,7 @@
   .family-art {
     position: relative;
     inset: auto;
+    height: 50vh;
     height: 50svh;
     min-height: 280px;
     margin: 4px -6px 10px;

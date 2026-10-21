@@ -106,6 +106,30 @@ body {
   outline-offset: 4px;
 }
 
+/* enlarge the touch target of the close glyph without moving it */
+.card-pop button[aria-label="close"]::before {
+  content: "";
+  position: absolute;
+  top: -12px;
+  bottom: -12px;
+  left: -12px;
+  right: -12px;
+}
+
+/* the header link is small; let it take a 44px-tall tap target */
+.minimal-link {
+  position: relative;
+}
+
+.minimal-link::before {
+  content: "";
+  position: absolute;
+  top: -14px;
+  bottom: -14px;
+  left: 0;
+  right: 0;
+}
+
 @keyframes scene-fade {
   from { opacity: 0; }
   to { opacity: 1; }
