@@ -101,6 +101,11 @@ body {
   animation: card-pop 0.28s ease-out both;
 }
 
+.card-pop button:focus-visible {
+  outline: 1px solid #b3362b;
+  outline-offset: 4px;
+}
+
 @keyframes scene-fade {
   from { opacity: 0; }
   to { opacity: 1; }

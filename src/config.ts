@@ -123,4 +123,14 @@ export const talks: Talk[] = [
     abstract: "Basic definitions for stable maps.",
     href: "/notes/stable-maps-basic-definitions.pdf",
   },
+  {
+    id: "b-divisors-invariant-iitaka",
+    title: "b-Divisors, Invariant Iitaka Dimension and Nakayama Numerical Dimension",
+    event: "Personal notes",
+    date: "2026",
+    kind: "note",
+    category: "modern-mmp",
+    abstract: "Notes on b-divisors, generalized pairs, Iitaka dimensions, numerical dimensions, and surjective pullbacks.",
+    href: "/notes/b-divisors-invariant-iitaka-nakayama-numerical-dimension.pdf",
+  },
 ];

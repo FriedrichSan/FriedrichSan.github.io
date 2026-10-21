@@ -439,6 +439,7 @@ export function FamilyScene({ onBack }: { onBack: () => void }) {
           )}
           {panel && panel.notes.length === 1 && (
             <>
+              <p className="family-note-single-title">{panel.notes[0].title}</p>
               <p className="mb-5">{panel.notes[0].abstract}</p>
               {panel.notes[0].href
                 ? <a href={panel.notes[0].href} target="_blank" rel="noreferrer" className="family-card-link">Read the notes <span aria-hidden="true">↗</span></a>
