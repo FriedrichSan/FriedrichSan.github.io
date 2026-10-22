@@ -124,13 +124,13 @@ export const talks: Talk[] = [
     href: "/notes/stable-maps-basic-definitions.pdf",
   },
   {
-    id: "b-divisors-invariant-iitaka",
-    title: "b-Divisors, Invariant Iitaka Dimension and Nakayama Numerical Dimension",
+    id: "b-divisors-abundance-generalized-pairs",
+    title: "b-Divisors and Abundance for Generalized Pairs",
     event: "Personal notes",
     date: "2026",
     kind: "note",
     category: "modern-mmp",
-    abstract: "Notes on b-divisors, generalized pairs, Iitaka dimensions, numerical dimensions, and surjective pullbacks.",
-    href: "/notes/b-divisors-invariant-iitaka-nakayama-numerical-dimension.pdf",
+    abstract: "Notes on b-divisors, generalized pairs, abundance, Iitaka and numerical dimensions, and log canonical centers.",
+    href: "/notes/b-divisors-and-abundance-for-generalized-pairs.pdf",
   },
 ];
