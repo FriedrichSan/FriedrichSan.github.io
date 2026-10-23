@@ -78,7 +78,7 @@ export function FamilyScene({ onBack }: { onBack: () => void }) {
         : group.parameter > 0
           ? 0.94 - right.findIndex(g => g.id === group.id) * 0.08
           : 0.5,
-    }));
+    })).sort((a, b) => a.number - b.number);
   }, []);
   const [panel, setPanel] = useState<{ id: string; title: string; kicker: string; notes: Talk[] } | null>(null);
   /* two entrances, picked at random each time the scene is opened */
