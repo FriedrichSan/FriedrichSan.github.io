@@ -81,8 +81,8 @@ export const NodeScene: React.FC<Props> = ({ onBlowup }) => {
 
   // callout geometry (responsive)
   const offX = w < 640 ? -70 : -210;
-  const offY = h < 560 ? -80 : -128;
-  const lx = Math.max(130, singX + offX);
+  const offY = w < 360 ? -160 : h < 560 ? -80 : -128;
+  const lx = w >= 1280 ? 250 : Math.max(130, singX + offX);
   const ly = Math.max(64, singY + offY);
   const ready = true; // callout fades in via delay
 
@@ -91,11 +91,12 @@ export const NodeScene: React.FC<Props> = ({ onBlowup }) => {
       <canvas ref={canvasRef} className="h-full w-full" />
 
       <Callout
+        className="node-callout"
         ax={singX}
         ay={singY}
         lx={lx}
         ly={ly}
-        title="the singularity — about me"
+        title={"the singularity\n— about me"}
         sub="an ordinary double point"
         color="red"
         onClick={() => setAboutOpen(true)}
@@ -110,7 +111,7 @@ export const NodeScene: React.FC<Props> = ({ onBlowup }) => {
       >
         <button
           onClick={onBlowup}
-          className="group font-serif text-lg italic text-stone-700 transition-colors hover:text-stone-900"
+          className="scene-cta group font-serif text-lg italic text-stone-700 transition-colors hover:text-stone-900"
         >
           blow up the singularity
           <span className="ml-2 inline-block transition-transform group-hover:translate-x-1.5">

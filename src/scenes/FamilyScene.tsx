@@ -237,7 +237,7 @@ export function FamilyScene({ onBack }: { onBack: () => void }) {
     }
 
     /* the marked points, their names, their leaders */
-    type Anchor = { id: string; index: number; parameter: number; symbol: string; mx: number; my: number; sx: number; sy: number; card: HTMLElement; cw: number; ch: number };
+    type Anchor = { id: string; index: number; parameter: number; symbol: string; mx: number; my: number; sx: number; sy: number; card: HTMLElement; cw: number; ch: number; cardIn: number };
     const anchors: Anchor[] = [];
 
     groups.forEach((group, index) => {
@@ -246,6 +246,7 @@ export function FamilyScene({ onBack }: { onBack: () => void }) {
       const q = group.q;
       const [mx, my] = settledProject(familyPoint(q, group.parameter, 1, idle));
       const [sx, sy] = settledProject(familyPoint(q, group.parameter, 1, 0));
+      const cardIn = smooth(clamp01((age - revealAt - index * 0.1) / 0.9));
 
       ctx.globalAlpha = notesIn;
       ctx.beginPath();
@@ -274,13 +275,13 @@ export function FamilyScene({ onBack }: { onBack: () => void }) {
         ctx.globalAlpha = 1;
       }
 
-      anchors.push({ id: group.id, index, parameter: group.parameter, symbol: group.symbol, mx, my, sx, sy, card, cw: card.offsetWidth, ch: card.offsetHeight });
+      anchors.push({ id: group.id, index, parameter: group.parameter, symbol: group.symbol, mx, my, sx, sy, card, cw: card.offsetWidth, ch: card.offsetHeight, cardIn });
     });
 
     if (compact) {
       for (const a of anchors) {
-        a.card.style.opacity = String(notesIn);
-        a.card.style.pointerEvents = notesIn > 0.7 ? "auto" : "none";
+        a.card.style.opacity = String(a.cardIn);
+        a.card.style.pointerEvents = a.cardIn > 0.7 ? "auto" : "none";
       }
     } else {
       /* negative parameters read on the left, positive on the right; cards stack
@@ -302,14 +303,14 @@ export function FamilyScene({ onBack }: { onBack: () => void }) {
           const top = Math.min(Math.max(wanted, floor), h - a.ch - 26);
           a.card.style.left = `${left}px`;
           a.card.style.top = `${top}px`;
-          a.card.style.opacity = String(notesIn);
-          a.card.style.pointerEvents = notesIn > 0.7 ? "auto" : "none";
+          a.card.style.opacity = String(a.cardIn);
+          a.card.style.pointerEvents = a.cardIn > 0.7 ? "auto" : "none";
           floor = top + a.ch + 14;
 
           if (notesIn > 0) {
             const edge: Pt = side === "left" ? [left + a.cw + 13, top + a.ch - 14] : [left - 13, top + 22];
             const on = s.hovered === a.id;
-            stroke([[a.mx, a.my], edge], on ? RED : "#8a8275", 0.8, notesIn * (on ? 0.8 : 0.5));
+            stroke([[a.mx, a.my], edge], on ? RED : "#8a8275", 0.8, a.cardIn * (on ? 0.8 : 0.5));
           }
         }
       }

@@ -14,6 +14,7 @@ interface CalloutProps {
   onClick?: () => void;
   visible?: boolean;
   delay?: number;
+  className?: string;
 }
 
 // A hand-drawn style curved arrow from the label to the anchor point.
@@ -28,6 +29,7 @@ export const Callout: React.FC<CalloutProps> = ({
   onClick,
   visible = true,
   delay = 0,
+  className = "",
 }) => {
   const stroke = color === "red" ? RED : INK;
   const labelRef = useRef<HTMLButtonElement | null>(null);
@@ -90,7 +92,7 @@ export const Callout: React.FC<CalloutProps> = ({
 
   return (
     <div
-      className="pointer-events-none absolute inset-0 transition-opacity duration-700"
+      className={`pointer-events-none absolute inset-0 transition-opacity duration-700 ${className}`}
       style={{ opacity: visible ? 1 : 0, transitionDelay: `${delay}ms` }}
     >
       <svg className="absolute inset-0 h-full w-full overflow-visible">
@@ -121,13 +123,13 @@ export const Callout: React.FC<CalloutProps> = ({
         style={{ left: lx, top: ly - 14 }}
       >
         <span
-          className="block whitespace-nowrap font-serif text-lg italic leading-tight transition-transform hover:scale-105"
+          className="callout-title block whitespace-nowrap font-serif italic leading-tight transition-transform hover:scale-105"
           style={{ color: stroke }}
         >
           {title}
         </span>
         {sub && (
-          <span className="block whitespace-nowrap font-serif text-xs italic text-stone-500">
+          <span className="callout-sub block whitespace-nowrap text-stone-500">
             {sub}
           </span>
         )}
