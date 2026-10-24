@@ -124,6 +124,16 @@ export const talks: Talk[] = [
     href: "/notes/stable-maps-basic-definitions.pdf",
   },
   {
+    id: "nef-abundant-not-log-abundant",
+    title: "An example of a nef abundant divisor that is not log-abundant",
+    event: "Personal notes",
+    date: "2026",
+    kind: "note",
+    category: "modern-mmp",
+    abstract: "An explicit projective-bundle example on an elliptic ruled surface: a nef abundant divisor that is not log-abundant.",
+    href: "/notes/nef-abundant-not-log-abundant.pdf",
+  },
+  {
     id: "b-divisors-abundance-generalized-pairs",
     title: "b-Divisors and Abundance for Generalized Pairs",
     event: "Personal notes",
