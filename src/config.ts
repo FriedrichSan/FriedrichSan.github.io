@@ -130,7 +130,7 @@ export const talks: Talk[] = [
     date: "2026",
     kind: "note",
     category: "modern-mmp",
-    abstract: "An explicit projective-bundle example on an elliptic ruled surface: a nef abundant divisor that is not log-abundant.",
+    abstract: "An explicit projective-bundle example on an elliptic ruled surface of a nef abundant divisor that is not log-abundant: it is b-abundant but not b-log-abundant, and b-log-abundant but not b-semiample.",
     href: "/notes/nef-abundant-not-log-abundant.pdf",
   },
   {
