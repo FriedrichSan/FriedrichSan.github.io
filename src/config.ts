@@ -90,7 +90,7 @@ export const talks: Talk[] = [
     date: "2026",
     kind: "note",
     category: "birational",
-    abstract: "Revised by GPT6 Astra Model and me. But be careful that, the revised version is very terse.",
+    abstract: "Revised by GPT6 Astra Model and me, now covering Chapters 1–6 and Appendices A–D. Be careful: the revised version is very terse.",
     href: "/notes/bgr.pdf",
   },
   {
