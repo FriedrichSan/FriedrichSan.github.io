@@ -124,6 +124,16 @@ export const talks: Talk[] = [
     href: "/notes/stable-maps-basic-definitions.pdf",
   },
   {
+    id: "adjunction-phenomenon-generalized-pairs",
+    title: "Adjunction Phenomenon on Generalized Pairs",
+    event: "Personal notes",
+    date: "2026",
+    kind: "note",
+    category: "modern-mmp",
+    abstract: "Notes on divisorial adjunction for generalized pairs: generalized dlt singularities, lc centres, and the adjunction formula for components of the boundary.",
+    href: "/notes/adjunction-phenomenon-generalized-pairs.pdf",
+  },
+  {
     id: "nef-abundant-not-log-abundant",
     title: "An example of a nef abundant divisor that is not log-abundant",
     event: "Personal notes",
