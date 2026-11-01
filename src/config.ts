@@ -130,7 +130,7 @@ export const talks: Talk[] = [
     date: "2026",
     kind: "note",
     category: "modern-mmp",
-    abstract: "Notes on divisorial adjunction for generalized pairs: generalized dlt singularities, lc centres, and the adjunction formula for components of the boundary.",
+    abstract: "Notes on divisorial adjunction for generalized pairs: generalized dlt singularities, lc centres, and adjunction on lc strata, including abundance on strata.",
     href: "/notes/adjunction-phenomenon-generalized-pairs.pdf",
   },
   {
