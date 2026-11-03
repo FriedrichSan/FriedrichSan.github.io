@@ -124,6 +124,16 @@ export const talks: Talk[] = [
     href: "/notes/stable-maps-basic-definitions.pdf",
   },
   {
+    id: "canonical-bundle-formula",
+    title: "Canonical Bundle Formula",
+    event: "Personal notes",
+    date: "2026",
+    kind: "note",
+    category: "modern-mmp",
+    abstract: "Notes on the canonical bundle formula for generalized lc-trivial fibrations, via b-divisors and the moduli b-divisor.",
+    href: "/notes/canonical-bundle-formula.pdf",
+  },
+  {
     id: "adjunction-phenomenon-generalized-pairs",
     title: "Adjunction Phenomenon on Generalized Pairs",
     event: "Personal notes",
