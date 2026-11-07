@@ -130,7 +130,7 @@ export const talks: Talk[] = [
     date: "2026",
     kind: "note",
     category: "modern-mmp",
-    abstract: "Notes on the canonical bundle formula for generalized lc-trivial fibrations: b-divisors, lc thresholds, and the discriminant and moduli b-divisors.",
+    abstract: "Notes on the canonical bundle formula for generalized lc-trivial fibrations: b-divisors, lc thresholds, discriminant and moduli b-divisors, and abundance/Ambro models.",
     href: "/notes/canonical-bundle-formula.pdf",
   },
   {
