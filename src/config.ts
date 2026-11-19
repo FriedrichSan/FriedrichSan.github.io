@@ -125,12 +125,12 @@ export const talks: Talk[] = [
   },
   {
     id: "adjunction-phenomenon-generalized-pairs",
-    title: "Adjunction Phenomenon on g-Pairs",
+    title: "Adjunction Phenomenon on Generalized Pairs",
     event: "Personal notes",
     date: "2026",
     kind: "note",
     category: "modern-mmp",
-    abstract: "Notes on divisorial adjunction for g-pairs: g-dlt singularities, lc centres, and adjunction on lc strata, including abundance on strata.",
+    abstract: "Notes on divisorial adjunction for generalized pairs: generalized dlt singularities, lc centres, and adjunction on lc strata, including abundance on strata.",
     href: "/notes/adjunction-phenomenon-generalized-pairs.pdf",
   },
   {
